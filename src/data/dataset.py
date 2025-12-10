@@ -1,8 +1,22 @@
+"""
+Docstring for src.data.dataset
+
+This module contains the class custome data loading class definition and preprocessing and 
+get_loaders function to create the data loaders.
+
+"""
+
 import os
 from torch.utils.data import Dataset
 from PIL import Image
+from torchvision import transforms
+
+from torch.utils.data import DataLoader
 
 class MetalSurfaceDataset(Dataset):
+    """
+    Custom Data Loading class for loading the images
+    """
     def __init__(self, root_dir, transform=None):
         """
         root_dir -> path to the train folder
@@ -56,8 +70,6 @@ class MetalSurfaceDataset(Dataset):
         return img, label
 
 
-from torchvision import transforms
-
 train_transform = transforms.Compose([
     transforms.Resize((224,224)),
     transforms.RandomHorizontalFlip(p=0.5),
@@ -78,14 +90,38 @@ val_transform = transforms.Compose([
     )
 ])
 
-test_transform = transforms.Compose([
-    transforms.Resize((224, 224)),
-    transforms.ToTensor(),
-    transforms.Normalize(
-        mean=[0.485, 0.456, 0.406],
-        std=[0.229, 0.224, 0.225]
-    )
-])
+test_transform = val_transform
+
+def get_dataloaders(train_dir, val_dir, test_dir, batch_size=32, num_workers=0):
+    """
+    Function to get the data loaders for train, validation and test datasets
+    
+    :param train_dir: train directory location
+    :param val_dir: validation directory location
+    :param test_dir: test directory location
+    :param batch_size: batch size to be kept for the data loaders
+    :param num_workers: number of workers to be kept for the data loaders
+
+    Returns :
+        Train , Validation and Test Data Loaders
+        And Class_Name to index mapping dictionery
+
+    """
+
+    train_ds = MetalSurfaceDataset(train_dir, transform=train_transform)
+    val_ds   = MetalSurfaceDataset(val_dir, transform=val_transform)
+    test_ds  = MetalSurfaceDataset(test_dir, transform=test_transform)
+
+    train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True,
+                              num_workers=num_workers, pin_memory=True)
+
+    val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False,
+                            num_workers=num_workers, pin_memory=True)
+
+    test_loader = DataLoader(test_ds, batch_size=batch_size, shuffle=False,
+                             num_workers=num_workers, pin_memory=True)
+
+    return train_loader, val_loader, test_loader, train_ds.class_to_idx
 
 
 # @click.command()

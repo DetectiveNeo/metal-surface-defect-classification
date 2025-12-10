@@ -1,0 +1,9 @@
+data :
+  train_dir : "data/raw/train"
+  val_dir : "data/raw/valid"
+  test_dir : "data/raw/test"
+  
+  batch_size : 32
+  num_workers : 0
+
+  num_of_classes : 6

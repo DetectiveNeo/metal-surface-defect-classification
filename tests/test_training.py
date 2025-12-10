@@ -70,7 +70,6 @@ def test_valid_one_epoch():
 
     assert isinstance(valid_epoch_acc, float) , "valid epoch Acc is not a float"
 
-
 # test_val_one_epoch.py
 
 # same as above but with val loader

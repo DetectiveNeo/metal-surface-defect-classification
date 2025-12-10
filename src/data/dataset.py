@@ -13,6 +13,10 @@ from torchvision import transforms
 
 from torch.utils.data import DataLoader
 
+from src.config import Config
+
+cfg = Config()
+
 class MetalSurfaceDataset(Dataset):
     """
     Custom Data Loading class for loading the images
@@ -124,26 +128,92 @@ def get_dataloaders(train_dir, val_dir, test_dir, batch_size=32, num_workers=0):
     return train_loader, val_loader, test_loader, train_ds.class_to_idx
 
 
-# @click.command()
-# @click.argument('input_filepath', type=click.Path(exists=True))
-# @click.argument('output_filepath', type=click.Path())
-# def main(input_filepath, output_filepath):
-#     """ Runs data processing scripts to turn raw data from (../raw) into
-#         cleaned data ready to be analyzed (saved in ../processed).
-#     """
-#     logger = logging.getLogger(__name__)
-#     logger.info('making final data set from raw data')
+def get_train_data_loaders(train_dir, batch_size=32, num_workers=0):
+    """
+    Function to get the data loader for train dataset
+    
+    :param train_dir: train directory location
+    :param batch_size: batch size to be kept for the data loaders
+    :param num_workers: number of workers to be kept for the data loaders
+
+    Returns :
+        Train 
+        And Class_Name to index mapping dictionery
+
+    """
+
+    train_ds = MetalSurfaceDataset(train_dir, transform=train_transform)
+
+    train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True,
+                              num_workers=num_workers, pin_memory=True)
+
+    return train_loader, len(train_ds) , train_ds.class_to_idx
 
 
-# if __name__ == '__main__':
-#     log_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-#     logging.basicConfig(level=logging.INFO, format=log_fmt)
+def get_val_data_loaders(val_dir, batch_size=32, num_workers=0):
+    """
+    Function to get the data loader for val dataset
+    
+    :param val_dir: val directory location
+    :param batch_size: batch size to be kept for the data loaders
+    :param num_workers: number of workers to be kept for the data loaders
 
-#     # not used in this stub but often useful for finding various files
-#     project_dir = Path(__file__).resolve().parents[2]
+    Returns :
+        val 
+        And Class_Name to index mapping dictionery
 
-#     # find .env automagically by walking up directories until it's found, then
-#     # load up the .env entries as environment variables
-#     load_dotenv(find_dotenv())
+    """
 
-#     main()
+    val_ds = MetalSurfaceDataset(val_dir, transform=val_transform)
+
+    val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=True,
+                              num_workers=num_workers, pin_memory=True)
+
+    return val_loader, len(val_ds) , val_ds.class_to_idx
+
+def get_test_data_loaders(test_dir, batch_size=32, num_workers=0):
+    """
+    Function to get the data loader for test dataset
+    
+    :param test_dir: test directory location
+    :param batch_size: batch size to be kept for the data loaders
+    :param num_workers: number of workers to be kept for the data loaders
+
+    Returns :
+        test 
+        And Class_Name to index mapping dictionery
+
+    """
+
+    test_ds = MetalSurfaceDataset(test_dir, transform=test_transform)
+
+    test_loader = DataLoader(test_ds, batch_size=batch_size, shuffle=True,
+                              num_workers=num_workers, pin_memory=True)
+
+    return test_loader, len(test_ds) , test_ds.class_to_idx
+
+if __name__ == "__main__":
+
+    (train_loader, dataset_length, class_to_idx) = get_train_data_loaders(
+        train_dir= cfg.data["train_dir"],
+        batch_size= cfg.data["batch_size"],
+        num_workers= cfg.data["num_workers"],
+    )
+
+    print(dataset_length)
+
+    (val_loader, dataset_length, class_to_idx) = get_val_data_loaders(
+    val_dir= cfg.data["val_dir"],
+    batch_size= cfg.data["batch_size"],
+    num_workers= cfg.data["num_workers"],
+    )
+
+    print(dataset_length)
+
+    (test_loader, dataset_length, class_to_idx) = get_test_data_loaders(
+        test_dir= cfg.data["test_dir"],
+        batch_size= cfg.data["batch_size"],
+        num_workers= cfg.data["num_workers"],
+    )
+
+    print(dataset_length)

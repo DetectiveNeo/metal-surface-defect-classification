@@ -11,29 +11,24 @@ class Config:
 
     PROJECT_ROOT = Path(__file__).resolve().parents[1] # Go up two folders to the project root folder
 
-    def __init__(self, config_path: str):
+    def __init__(self):
 
-        config_path = self.PROJECT_ROOT / config_path
+        config_path = self.PROJECT_ROOT / "configs/config.yaml"
 
-     print("FILE LOCATION:", Path(__file__).resolve())
-print("PARENTS:")
+        self.config_path = config_path
 
+        with open(config_path, "r", encoding="utf-8") as f:
+            cfg = yaml.safe_load(f)
+            self.cfg = cfg
+            self.data = cfg["data"]
+            self.model = cfg["model"]
+            self.train = cfg["train"]
 
-        # print(config_path)
+if __name__ == "__main__":
+    cfg = Config()
 
-        # with open(config_path, "r", encoding="utf-8") as f:
-        #     cfg = yaml.safe_load(f)
+    # cfg.PROJECT_ROOT + "models/resnet18_best.pth"
 
-        # self.cfg = cfg
+    print(cfg.PROJECT_ROOT / "models/resnet18_best.pth")
 
-        # data_cfg = cfg["data"]
-
-        # self.train_dir = data_cfg["train_dir"]
-        # self.val_dir = data_cfg["val_dir"]
-        # self.test_dir = data_cfg["test_dir"]
-        
-        # self.batch_size = data_cfg["batch_size"]
-        # self.num_workers = data_cfg["num_workers"]
-
-        # self.num_of_classes = data_cfg["num_of_classes"]
 

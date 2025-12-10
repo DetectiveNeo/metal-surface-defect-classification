@@ -1,0 +1,32 @@
+data :
+  train_dir : "data/raw/train"
+  val_dir : "data/raw/valid"
+  test_dir : "data/raw/test"
+  
+  batch_size : 32
+  num_workers : 0
+
+  num_of_classes : 6
+
+model:
+  name: "resnet18"
+  architectures:
+    resnet18:
+      num_classes: 6
+      freeze_backbone: true
+
+    resnet50:
+      num_classes: 6
+      freeze_backbone: false
+
+    custom_cnn:
+      num_classes: 6
+      channels: [32, 64, 128]
+      dropout: 0.3
+
+train:
+  epochs: 20
+  lr: 0.001
+  checkpoint_path: "checkpoints/resnet18_best.pth"
+  device: "auto"    # auto → cuda if available else cpu
+  log_interval: 20

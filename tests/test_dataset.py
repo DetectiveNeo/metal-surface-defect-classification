@@ -10,7 +10,7 @@ def test_loading():
 
     """
 
-    cfg = Config("configs/data.yaml")
+    cfg = Config("configs/config.yaml")
 
     (train_loader, val_loader, test_loader, class_to_idx) = get_dataloaders(
         train_dir= cfg.train_dir,

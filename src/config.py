@@ -15,17 +15,25 @@ class Config:
 
         config_path = self.PROJECT_ROOT / config_path
 
-        with open(config_path, "r", encoding="utf-8") as f:
-            cfg = yaml.safe_load(f)
+     print("FILE LOCATION:", Path(__file__).resolve())
+print("PARENTS:")
 
-        data_cfg = cfg["data"]
 
-        self.train_dir = data_cfg["train_dir"]
-        self.val_dir = data_cfg["val_dir"]
-        self.test_dir = data_cfg["test_dir"]
+        # print(config_path)
+
+        # with open(config_path, "r", encoding="utf-8") as f:
+        #     cfg = yaml.safe_load(f)
+
+        # self.cfg = cfg
+
+        # data_cfg = cfg["data"]
+
+        # self.train_dir = data_cfg["train_dir"]
+        # self.val_dir = data_cfg["val_dir"]
+        # self.test_dir = data_cfg["test_dir"]
         
-        self.batch_size = data_cfg["batch_size"]
-        self.num_workers = data_cfg["num_workers"]
+        # self.batch_size = data_cfg["batch_size"]
+        # self.num_workers = data_cfg["num_workers"]
 
-        self.num_of_classes = data_cfg["num_of_classes"]
+        # self.num_of_classes = data_cfg["num_of_classes"]
 

@@ -74,7 +74,6 @@ This project uses **ResNet18** with transfer learning:
 - Backbone optionally frozen during initial training  
 - Final fully connected layer replaced for **6-class classification**
 
-Model architecture is Frozen backbone ResNet18 connected to a linear classifer Layer for **6-class classification**.
 Number of Trainable Parameters : **3078**
 
 

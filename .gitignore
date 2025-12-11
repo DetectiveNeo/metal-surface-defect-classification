@@ -90,6 +90,6 @@ target/
 
 
 # Model Folder
-
+.github
 models
 

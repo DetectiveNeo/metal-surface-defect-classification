@@ -31,3 +31,4 @@ train:
   device: "auto"    # auto → cuda if available else cpu
   log_interval: 20
   patience_level : 5 # for early stopping
+  artifacts_paths : "reports/training_history.csv"

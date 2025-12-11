@@ -114,8 +114,8 @@ python src/models/predictions.py
 
 ## 7. Results 
 
-Training Accuracy : **97.40%**
-Validation Accuracy : **100.00%
-Test Accuracy : **98.61%**
+- Training Accuracy : **97.40%**
+- Validation Accuracy : **100.00%
+- Test Accuracy : **98.61%**
 
 

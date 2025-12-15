@@ -1,5 +1,6 @@
 from src.config import Config
 from src.modelling.model import MyResNet18
+from src.modelling.train import get_device
 from src.data.dataset import get_dataloaders, get_train_data_loaders, get_test_data_loaders, get_val_data_loaders
 
 import torch 
@@ -14,15 +15,18 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import torch
 from torchvision import models
+from sklearn.metrics import classification_report
 
 cfg = Config()
 
 def test_predict():
 
-    model = MyResNet18(num_classes= 6)
+    device = get_device()
 
-    model.load_state_dict(torch.load(cfg.model, weights_only= True))
-    model = model.to(device)
+    model = MyResNet18(num_classes= 6).to(device)
+
+    model.load_state_dict(torch.load(cfg.model_save_path, weights_only= True))
+    
     model.eval(); # Set to inference mode
 
     all_preds = []
@@ -32,6 +36,8 @@ def test_predict():
     total = 0
 
     total_image_count = 0
+
+    (test_loader, test_datset_length , class_to_idx) = get_test_data_loaders(cfg.data['test_dir'], batch_size= cfg.data['batch_size'], num_workers= cfg.data['num_workers'])
 
     with torch.no_grad():
         for images, labels in test_loader:
@@ -55,7 +61,7 @@ def test_predict():
 
     # Printing total image count
     print("Images covered:", total_image_count)
-    print("Total test images:", len(test_dataset))
+    print("Total test images:", test_datset_length)
 
     # Final Accuracy
 
@@ -72,8 +78,7 @@ def test_predict():
     plt.ylabel("Actual")
     plt.show()
 
-    from sklearn.metrics import classification_report
-    print(classification_report(all_labels, all_preds, target_names=train_dataset.class_to_idx.keys()))
+    print(classification_report(all_labels, all_preds, target_names=class_to_idx.keys()))
 
 if __name__ == "__main__":
     test_predict()

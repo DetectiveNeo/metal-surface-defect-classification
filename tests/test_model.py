@@ -3,7 +3,7 @@ import torch
 # from torchsummary import summary
 from src.config import Config
 from src.data.dataset import get_dataloaders
-from src.models.model import MyResNet18
+from src.modelling.model import MyResNet18
 
 cfg = Config()
 model = MyResNet18(num_classes= cfg.data["num_of_classes"], freeze_backbone= True)

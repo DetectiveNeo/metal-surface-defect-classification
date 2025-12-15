@@ -1,5 +1,5 @@
 # from src.models import model
-from src.modellling.train import create_model, create_dataloader, train_one_epoch, val_one_epoch
+from src.modelling.train import create_model, create_dataloader, train_one_epoch, val_one_epoch
 from src.config import Config
 
 import torch

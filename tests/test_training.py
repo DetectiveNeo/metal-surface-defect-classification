@@ -1,6 +1,7 @@
 # from src.models import model
-from src.models.train import create_model, create_dataloader, train_one_epoch, val_one_epoch
+from src.modelling.train import train_one_epoch, val_one_epoch
 from src.config import Config
+from src.modelling.model import MyResNet18
 
 import torch
 import torch.optim as optim
@@ -16,7 +17,7 @@ def test_train_one_epoch():
     """
     test one poch of the train function 
     """
-    model = create_model()
+    model = MyResNet18().to(device)
     optimizer = optim.Adam(model.parameters(), lr= cfg.train['lr'])
     criterion = nn.CrossEntropyLoss()
 
@@ -46,7 +47,7 @@ def test_valid_one_epoch():
     """
     test one poch of the valid function 
     """
-    model = create_model()
+    model = MyResNet18().to(device)
     optimizer = optim.Adam(model.parameters(), lr= cfg.train['lr'])
     criterion = nn.CrossEntropyLoss()
 
@@ -63,6 +64,8 @@ def test_valid_one_epoch():
         optimizer= optimizer,
         criterion= criterion,
         val_dataset_length= len(dataset),
+        epoch= 1,
+        num_epochs= 1,
         device= device,
     )
 

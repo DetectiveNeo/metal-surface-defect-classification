@@ -3,8 +3,8 @@ data :
   val_dir : "data/raw/valid"
   test_dir : "data/raw/test"
   
-  batch_size : 32
-  num_workers : 0
+  batch_size : 64
+  num_workers : 4
 
   num_of_classes : 6
 
@@ -25,7 +25,7 @@ model:
       dropout: 0.3
 
 train:
-  epochs: 2
+  epochs: 10
   lr: 0.001
   checkpoint_path: "models/resnet18_best.pth"
   device: "auto"    # auto → cuda if available else cpu
